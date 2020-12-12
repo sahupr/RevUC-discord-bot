@@ -2,6 +2,6 @@
 discord bot
 
 
-clone the repo
-npm i
+clone the repo <br />
+npm i <br />
 npm install discord.js
