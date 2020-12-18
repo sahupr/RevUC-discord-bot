@@ -1,4 +1,4 @@
-# cathacks
+# RevUC-discord-bot
 discord bot
 
 
