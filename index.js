@@ -3,11 +3,13 @@ const Discord = require('discord.js')
 
 const help = require("./help")
 const multiply = require("./multiply")
+const react = require("./react")
 
 const client = new Discord.Client()
 
 client.once('ready', () => {
     console.log('the bot is online!')
+    client.user.setActivity('with Javascript', {type: "PLAYING"})
 
     //list all servers the bot is connected to
     console.log('\nServers:')
@@ -68,7 +70,9 @@ function processCommand(receivedMessage) {
     else if (primaryCommand == 'multiply') {
         multiply(arguments, receivedMessage)
     }
-
+    else if (primaryCommand == 'react') {
+        react(arguments, receivedMessage)
+    }
 }
 
 client.login(token)

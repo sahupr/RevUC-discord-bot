@@ -10,7 +10,8 @@ npm install discord.js
 ---Bot test commands--- 
 
 !help [topic_name]<br />
-!multiply [] []<br /><br />
+!multiply [] []<br />
+!react <br /><br />
 
 Example: <br />
 !help login<br />
