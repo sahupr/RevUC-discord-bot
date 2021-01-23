@@ -4,6 +4,7 @@ const Discord = require('discord.js')
 const help = require("./help")
 const multiply = require("./multiply")
 const react = require("./react")
+const countdown = require("./countdown")
 
 const client = new Discord.Client()
 
@@ -72,6 +73,9 @@ function processCommand(receivedMessage) {
     }
     else if (primaryCommand == 'react') {
         react(arguments, receivedMessage)
+    }
+    else if (primaryCommand == 'countdown') {
+        countdown(arguments, receivedMessage)
     }
 }
 
