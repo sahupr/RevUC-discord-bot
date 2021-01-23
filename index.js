@@ -1,10 +1,13 @@
-const token = require("./token")
 const Discord = require('discord.js')
+const emailValidator = require('email-validator')
+
+const token = require("./token")
 
 const help = require("./help")
 const multiply = require("./multiply")
 const react = require("./react")
 const countdown = require("./countdown")
+const checkin = require('./checkin')
 
 const client = new Discord.Client()
 
@@ -44,12 +47,20 @@ client.once('ready', () => {
 //         receivedMessage.channel.send("Message received from " + receivedMessage.author.toString() + ": " + receivedMessage.content)
 //     }
 
-    client.on('message', (receivedMessage) => {
+    client.on('message', async (receivedMessage) => {
         if(receivedMessage.author == client.user) {
             return
         }
 
-        if(receivedMessage.content.startsWith('!')) {
+
+        if(receivedMessage.channel.name === process.env.CHECK_IN_CHANNEL_NAME) {
+            // if receivedMessage is an email
+            if(emailValidator.validate(receivedMessage)) {
+                // run the checkIn function
+                const email = receivedMessage
+                checkin(email, receivedMessage)
+            }
+        } else if(receivedMessage.content.startsWith('!')) {
             processCommand(receivedMessage)
         }
     })
