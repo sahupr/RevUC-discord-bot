@@ -52,7 +52,6 @@ client.once('ready', () => {
             return
         }
 
-
         if(receivedMessage.channel.name === process.env.CHECK_IN_CHANNEL_NAME) {
             // if receivedMessage is an email
             if(emailValidator.validate(receivedMessage)) {
@@ -76,18 +75,24 @@ function processCommand(receivedMessage) {
     console.log('command received: ' + primaryCommand)
     console.log('Arguments: ' + arguments)
 
-    if (primaryCommand == "help") {
-        help(arguments, receivedMessage)
+    switch(primaryCommand) {
+        case 'help':
+            help(arguments, receivedMessage)
+            break
+        case 'mulitply':
+            multiply(arguments, receivedMessage)
+            break
+        case 'react':
+            react(arguments, receivedMessage)
+            break
+        case 'countdown':
+            countdown(arguments, receivedMessage)
+            break
+        case 'checkin':
+            checkin(arguments, receivedMessage)
+            break
     }
-    else if (primaryCommand == 'multiply') {
-        multiply(arguments, receivedMessage)
-    }
-    else if (primaryCommand == 'react') {
-        react(arguments, receivedMessage)
-    }
-    else if (primaryCommand == 'countdown') {
-        countdown(arguments, receivedMessage)
-    }
+    
 }
 
 client.login(token)
