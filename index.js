@@ -56,8 +56,7 @@ client.once('ready', () => {
             // if receivedMessage is an email
             if(emailValidator.validate(receivedMessage)) {
                 // run the checkIn function
-                const email = receivedMessage
-                checkin(email, receivedMessage)
+                await checkin(receivedMessage)
             }
         } else if(receivedMessage.content.startsWith('!')) {
             processCommand(receivedMessage)

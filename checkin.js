@@ -1,32 +1,45 @@
 const Discord = require('discord.js')
 const emailValidator = require('email-validator')
+const Axios = require('axios').default
+
+const API_TOKEN = process.env.API_TOKEN
 
 /**
  * 
- * @param {string} email 
  * @param {Discord.Message} message 
  */
-module.exports = function(email, message) {
-  // send a request to revuc api to check in the email
+module.exports = async function(message) {
+  const email = message.toString();
 
-    // if check in failed, return with an error message
-    if(emailValidator.validate(email.toString()) && message.channel.id === '803803905712324638') {
-      
-      console.log('valid email')
-      
+  if(emailValidator.validate(email) && message.channel.id === '803803905712324638') {
+    // send a request to revuc api to check in the email
+    try {
+      const res = await Axios.post(`https://revolutionuc-api.herokuapp.com/api/v2/admin/registrants/checkin?email=${email}`, {}, {
+        headers: {
+          Authorization: `Bearer ${API_TOKEN}`
+        }
+      })
+
+      const { firstName, lastName } = res.data
+
       // check in succeeded
       const user = message.author.id
       
       // grant the hacker role
-      const member = message.guild.members.cache.find((member) => member.id === user.toString())
-      let testRole = message.guild.roles.cache.find(role => role.id === "803776127482724373")     //the role ID needs to change
+      const member = message.guild.members.cache.find(member => member.id === user)
+      const testRole = message.guild.roles.cache.find(role => role.id === "803776127482724373")     //the role ID needs to change
       member.roles.add(testRole)
+
+    } catch (err) {
+      // if check in failed, return with an error message
       
+    }
+
       // censor the original message
       // devagrawal09@gmail.com
       // d****9@gmail.com
 
-      let ptEmail = email.toString()
+      let ptEmail = email
       let letter = ''
       let stars = ''
       i=0
