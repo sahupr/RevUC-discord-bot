@@ -1,7 +1,7 @@
+require('dotenv').config();
 const Discord = require('discord.js')
 const emailValidator = require('email-validator')
 
-const token = require("./token")
 const random = require('random');
 
 const help = require("./help")
@@ -12,6 +12,9 @@ const checkin = require('./checkin')
 
 const client = new Discord.Client()
 
+const DISCORD_TOKEN = process.env.DISCORD_TOKEN
+const CHECKIN_CHANNEL_ID = process.env.CHECKIN_CHANNEL_ID
+
 var stats = {}
 
 client.once('ready', () => {
@@ -19,13 +22,13 @@ client.once('ready', () => {
     client.user.setActivity('with Javascript', {type: "PLAYING"})
 
     //list all servers the bot is connected to
-    console.log('\nServers:')
+    // console.log('\nServers:')
     client.guilds.cache.forEach((guild) => {
-        console.log(' - '+guild.name)
+        // console.log(' - '+guild.name)
 
         //list all channels in the server
         guild.channels.cache.forEach((channel) => {
-            console.log(` -- ${channel.name} (${channel.type}) - ${channel.id}`)
+            // console.log(` -- ${channel.name} (${channel.type}) - ${channel.id}`)
         })
     })
 
@@ -59,13 +62,14 @@ client.on('message', async (receivedMessage) => {
         return
     }
 
-    if(receivedMessage.channel.name === process.env.CHECK_IN_CHANNEL_NAME) {
-        // if receivedMessage is an email
-        if(emailValidator.validate(receivedMessage)) {
-            // run the checkIn function
-            await checkin(receivedMessage)
-        }
-    } 
+    if(receivedMessage.channel.id == CHECKIN_CHANNEL_ID) {
+        // run the checkIn function
+        console.log(`Checking in!`);
+        await checkin(receivedMessage)
+        return;
+    }
+
+    console.log(`Not checking in`);
 
     if (receivedMessage.guild.id in stats === false) {
         stats[receivedMessage.guild.id] = {};
@@ -116,11 +120,8 @@ function processCommand(receivedMessage) {
         case 'countdown':
             countdown(arguments, receivedMessage)
             break
-        case 'checkin':
-            checkin(arguments, receivedMessage)
-            break
     }
     
 }
 
-client.login(token)
+client.login(DISCORD_TOKEN)
