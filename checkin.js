@@ -6,6 +6,7 @@ const API_TOKEN = process.env.API_TOKEN
 const HACKER_ROLE = process.env.HACKER_ROLE
 const JUDGE_ROLE = process.env.JUDGE_ROLE
 const CHECKIN_CHANNEL_ID = process.env.CHECKIN_CHANNEL_ID
+const ATTENDEE_ROLE = process.env.ATTENDEE_ROLE
 
 /**
  * 
@@ -63,14 +64,14 @@ module.exports = async function(message) {
       // grant the hacker role
       const member = message.guild.members.cache.find(member => member.id === user)
       const testRole = message.guild.roles.cache.find(role => role.id === roleToBeAdded)
-      member.roles.add(testRole)
+      member.roles.add([testRole, ATTENDEE_ROLE])
 
       const censoredEmail = censorEmail(email);
-      console.log({ censoredEmail })
 
       message.channel.send(`${name} <${censoredEmail}> is checked in!`)
     } catch (err) {
-      if(err.response.status === 404) {
+      console.error(err)
+      if(err.response?.status === 404) {
         message.channel.send(`Attendee with email ${censorEmail(email)} does not exist, please make sure you are registered with us or contact an organizer`)
       } else {
         message.channel.send(`Error checking in ${censorEmail(email)}, please try again later or contact an organizer`)
