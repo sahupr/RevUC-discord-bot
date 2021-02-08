@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 const emailValidator = require('email-validator')
 
 const token = require("./token")
+const random = require('random');
 
 const help = require("./help")
 const multiply = require("./multiply")
@@ -10,6 +11,8 @@ const countdown = require("./countdown")
 const checkin = require('./checkin')
 
 const client = new Discord.Client()
+
+var stats = {}
 
 client.once('ready', () => {
     console.log('the bot is online!')
@@ -47,22 +50,48 @@ client.once('ready', () => {
 //         receivedMessage.channel.send("Message received from " + receivedMessage.author.toString() + ": " + receivedMessage.content)
 //     }
 
-    client.on('message', async (receivedMessage) => {
-        if(receivedMessage.author == client.user) {
-            return
-        }
+})
 
-        if(receivedMessage.channel.name === process.env.CHECK_IN_CHANNEL_NAME) {
-            // if receivedMessage is an email
-            if(emailValidator.validate(receivedMessage)) {
-                // run the checkIn function
-                await checkin(receivedMessage)
-            }
-        } else if(receivedMessage.content.startsWith('!')) {
-            processCommand(receivedMessage)
+const ParticipationCodes = ['REVUC2021OC', 'NICETOMEETYALL', 'HACKINGINTENSIFIES', 'W1SOFUN', 'SUPERCOOLW2', 'YOUMEANDW3', 'W4RULES', 'SPIDERWEBS', 'SIOTPLAYER', 'CHITCHATSH', 'FRIENDLYTREES', 'GOTOSLEEP', 'QOTHISLIT', 'NOMORESITTING', 'UNTILNEXTYEAR']
+
+client.on('message', async (receivedMessage) => {
+    if(receivedMessage.author == client.user) {
+        return
+    }
+
+    if(receivedMessage.channel.name === process.env.CHECK_IN_CHANNEL_NAME) {
+        // if receivedMessage is an email
+        if(emailValidator.validate(receivedMessage)) {
+            // run the checkIn function
+            await checkin(receivedMessage)
+        }
+    } 
+
+    if (receivedMessage.guild.id in stats === false) {
+        stats[receivedMessage.guild.id] = {};
+    }
+
+    const guildStats = stats[receivedMessage.guild.id]
+    if (receivedMessage.author.id in guildStats === false){
+        guildStats[receivedMessage.author.id] = {
+            xp: 0,
+            level: 0,
+            lastMessage: 0
+        }
+    }
+    const userStats = guildStats[receivedMessage.author.id]
+    ParticipationCodes.forEach((code) => {
+        if (receivedMessage.content == code) {
+            console.log(code)
+            userStats.xp += random.int(15,25)
         }
     })
 
+    console.log(receivedMessage.author.username + ' now has ' + userStats.xp)
+
+    if(receivedMessage.content.startsWith('!')) {
+        processCommand(receivedMessage)
+    }
 })
 
 function processCommand(receivedMessage) {
@@ -78,7 +107,7 @@ function processCommand(receivedMessage) {
         case 'help':
             help(arguments, receivedMessage)
             break
-        case 'mulitply':
+        case 'multiply':
             multiply(arguments, receivedMessage)
             break
         case 'react':
