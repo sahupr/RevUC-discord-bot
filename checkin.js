@@ -10,8 +10,10 @@ const CHECKIN_CHANNEL_ID = process.env.CHECKIN_CHANNEL_ID
  * 
  * @param {Discord.Message} message 
  */
-module.exports = async function(message) {
-  const email = message.toString();
+module.exports = async function(args, message) {
+  const email = args[0];
+  console.log(email)
+  console.log(message)
 
   if(emailValidator.validate(email) && message.channel.id === CHECKIN_CHANNEL_ID) {
     // send a request to revuc api to check in the email
