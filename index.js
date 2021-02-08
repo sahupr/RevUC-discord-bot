@@ -9,6 +9,7 @@ const multiply = require("./multiply")
 const react = require("./react")
 const countdown = require("./countdown")
 const checkin = require('./checkin')
+const { score, top } = require('./score')
 
 const client = new Discord.Client()
 
@@ -64,13 +65,10 @@ client.on('message', async (receivedMessage) => {
 
     if(receivedMessage.channel.id == CHECKIN_CHANNEL_ID) {
         // run the checkIn function
-        console.log(`Checking in!`);
         await checkin(receivedMessage)
         return;
     }
-
-    console.log(`Not checking in`);
-
+/* 
     if (receivedMessage.guild.id in stats === false) {
         stats[receivedMessage.guild.id] = {};
     }
@@ -91,7 +89,7 @@ client.on('message', async (receivedMessage) => {
         }
     })
 
-    console.log(receivedMessage.author.username + ' now has ' + userStats.xp)
+    console.log(receivedMessage.author.username + ' now has ' + userStats.xp) */
 
     if(receivedMessage.content.startsWith('!')) {
         processCommand(receivedMessage)
@@ -119,6 +117,12 @@ function processCommand(receivedMessage) {
             break
         case 'countdown':
             countdown(arguments, receivedMessage)
+            break
+        case 'claim':
+            claim(arguments, receivedMessage)
+            break
+        case 'top':
+            top(arguments, receivedMessage)
             break
     }
     
