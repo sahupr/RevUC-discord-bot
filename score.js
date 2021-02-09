@@ -2,7 +2,6 @@ const Discord = require('discord.js')
 const { User, Event, sequelize, Claim } = require('./database');
 const random = require('random');
 
-// const ParticipationCodes = ['REVUC2021OC', 'NICETOMEETYALL', 'HACKINGINTENSIFIES', 'W1SOFUN', 'SUPERCOOLW2', 'YOUMEANDW3', 'W4RULES', 'SPIDERWEBS', 'SIOTPLAYER', 'CHITCHATSH', 'FRIENDLYTREES', 'GOTOSLEEP', 'QOTHISLIT', 'NOMORESITTING', 'UNTILNEXTYEAR']
 const CLAIM_CHANNEL_ID = process.env.CLAIM_CHANNEL_ID;
 // sequelize.sync()
 /**
@@ -29,18 +28,19 @@ async function score(args, receivedMessage) {
     const claim = await Claim.findOne({where:{userID: receivedMessage.author.id, eventCode: code}})
     if (claim) {
       receivedMessage.channel.send('Code already claimed')
-      return
+    } else {
+      const currentScore = user.score;
+      const newScore = currentScore + event.points;
+      user.set(`score`, newScore);
+      await user.save();
+      await Claim.create({userID: receivedMessage.author.id, eventCode: code, claimID: random.int(1, 2000)})
+      receivedMessage.channel.send(`Hey ${receivedMessage.author.username}, thank you for attending ${event.name}, you now have ${newScore} points`)
     }
-    const currentScore = user.score;
-    const newScore = currentScore + event.points;
-    user.set(`score`, newScore);
-    await user.save();
-    await Claim.create({userID: receivedMessage.author.id, eventCode: code, claimID: random.int(1, 2000)});
 
-    receivedMessage.channel.send(`Hey ${receivedMessage.author.username}, thank you for attending ${event.name}, you now have ${newScore} points`);
   } else {
-    receivedMessage.channel.send('Nice try');
+    receivedMessage.channel.send('Nice try')
   }
+  receivedMessage.delete()
 
 }
 

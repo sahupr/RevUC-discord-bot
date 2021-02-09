@@ -119,7 +119,7 @@ function processCommand(receivedMessage) {
             countdown(arguments, receivedMessage)
             break
         case 'claim':
-            claim(arguments, receivedMessage)
+            score(arguments, receivedMessage)
             break
         case 'top':
             top(arguments, receivedMessage)
