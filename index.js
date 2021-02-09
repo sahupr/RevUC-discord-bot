@@ -1,8 +1,5 @@
 require('dotenv').config();
 const Discord = require('discord.js')
-const emailValidator = require('email-validator')
-
-const random = require('random');
 
 const help = require("./help")
 const multiply = require("./multiply")
@@ -15,8 +12,6 @@ const client = new Discord.Client()
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN
 const CHECKIN_CHANNEL_ID = process.env.CHECKIN_CHANNEL_ID
-
-var stats = {}
 
 client.once('ready', () => {
     console.log('the bot is online!')
@@ -55,8 +50,6 @@ client.once('ready', () => {
 //     }
 
 })
-
-const ParticipationCodes = ['REVUC2021OC', 'NICETOMEETYALL', 'HACKINGINTENSIFIES', 'W1SOFUN', 'SUPERCOOLW2', 'YOUMEANDW3', 'W4RULES', 'SPIDERWEBS', 'SIOTPLAYER', 'CHITCHATSH', 'FRIENDLYTREES', 'GOTOSLEEP', 'QOTHISLIT', 'NOMORESITTING', 'UNTILNEXTYEAR']
 
 client.on('message', async (receivedMessage) => {
     if(receivedMessage.author == client.user) {

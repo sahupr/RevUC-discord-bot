@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require(`sequelize`);
+const { Sequelize, DataTypes } = require(`sequelize`)
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres', dialectOptions: { ssl: { require: true, rejectUnauthorized: false } } })
 exports.sequelize = sequelize
@@ -9,6 +9,10 @@ exports.User = sequelize.define(`discord-user`, {
     unique: true,
     allowNull: false,
     primaryKey: true,
+  },
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false
   },
   score: {
     type: DataTypes.INTEGER,
@@ -32,21 +36,13 @@ exports.Event = sequelize.define(`event`, {
     type: DataTypes.INTEGER,
     allowNull: false
   }
-});
+})
 
 exports.Claim = sequelize.define('claim',  {
   userID: {
     type: DataTypes.STRING,
     allowNull: false
   },
-
-  claimID: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: true,
-    primaryKey: true
-  },
-
   eventCode: {
     type: DataTypes.STRING,
     allowNull: false
