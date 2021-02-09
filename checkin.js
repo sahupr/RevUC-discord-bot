@@ -6,7 +6,6 @@ const API_TOKEN = process.env.API_TOKEN
 const HACKER_ROLE = process.env.HACKER_ROLE
 const JUDGE_ROLE = process.env.JUDGE_ROLE
 const CHECKIN_CHANNEL_ID = process.env.CHECKIN_CHANNEL_ID
-const ATTENDEE_ROLE = process.env.ATTENDEE_ROLE
 
 /**
  * 
@@ -64,7 +63,7 @@ module.exports = async function(message) {
       // grant the hacker role
       const member = message.guild.members.cache.find(member => member.id === user)
       const testRole = message.guild.roles.cache.find(role => role.id === roleToBeAdded)
-      member.roles.add([testRole, ATTENDEE_ROLE])
+      member.roles.add(testRole)
 
       const censoredEmail = censorEmail(email);
 
