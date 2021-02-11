@@ -6,6 +6,7 @@ const API_TOKEN = process.env.API_TOKEN
 const HACKER_ROLE = process.env.HACKER_ROLE
 const JUDGE_ROLE = process.env.JUDGE_ROLE
 const CHECKIN_CHANNEL_ID = process.env.CHECKIN_CHANNEL_ID
+const MINOR_ROLE = process.env.MINOR_ROLE
 
 /**
  * 
@@ -42,7 +43,7 @@ module.exports = async function(message) {
         }
       })
 
-      const { name, role } = res.data
+      const { name, role, isMinor } = res.data
 
       let roleToBeAdded;
 
@@ -53,6 +54,12 @@ module.exports = async function(message) {
         case `JUDGE`:
           roleToBeAdded = JUDGE_ROLE;
           break;
+          case `SPONSOR`:
+          roleToBeAdded = SPONSOR_ROLE;
+          break;
+        case `MENTOR`:
+          roleToBeAdded = MENTOR_ROLE;
+          break;
         default:
           throw new Error(`Invalid role`);
       }
@@ -62,9 +69,14 @@ module.exports = async function(message) {
       
       // grant the hacker role
       const member = message.guild.members.cache.find(member => member.id === user)
-      const testRole = message.guild.roles.cache.find(role => role.id === roleToBeAdded)
-      member.roles.add(testRole)
+      const Role = message.guild.roles.cache.find(role => role.id === roleToBeAdded)
+      member.roles.add(Role)
 
+      if (isMinor == true) {
+        const minorRole = message.guild.roles.cache.find(role => role.id == MINOR_ROLE)
+        member.roles.add(minorRole)
+      }
+ 
       const censoredEmail = censorEmail(email);
 
       message.channel.send(`${name} <${censoredEmail}> is checked in!`)
@@ -72,7 +84,10 @@ module.exports = async function(message) {
       console.error(err)
       if(err.response?.status === 404) {
         message.channel.send(`Attendee with email ${censorEmail(email)} does not exist, please make sure you are registered with us or contact an organizer`)
-      } else {
+      } else if (err.response?.status === 403) {
+          message.channel.send(`Attendee with email ${censorEmail(email)} is already checked in, are you clone?`)
+      }
+      else {
         message.channel.send(`Error checking in ${censorEmail(email)}, please try again later or contact an organizer`)
       }
     }
