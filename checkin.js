@@ -5,6 +5,8 @@ const Axios = require('axios').default
 const API_TOKEN = process.env.API_TOKEN
 const HACKER_ROLE = process.env.HACKER_ROLE
 const JUDGE_ROLE = process.env.JUDGE_ROLE
+const MENTOR_ROLE = process.env.MENTOR_ROLE
+const SPONSOR_ROLE = process.env.SPONSOR_ROLE
 const CHECKIN_CHANNEL_ID = process.env.CHECKIN_CHANNEL_ID
 const MINOR_ROLE = process.env.MINOR_ROLE
 
