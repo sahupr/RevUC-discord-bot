@@ -87,7 +87,7 @@ module.exports = async function(message) {
       if(err.response?.status === 404) {
         message.channel.send(`Attendee with email ${censorEmail(email)} does not exist, please make sure you are registered with us or contact an organizer`)
       } else if (err.response?.status === 403) {
-          message.channel.send(`Attendee with email ${censorEmail(email)} is already checked in, are you a clone?`)
+          message.channel.send(`Attendee with email ${censorEmail(email)} is already checked in.`)
       }
       else {
         message.channel.send(`Error checking in ${censorEmail(email)}, please try again later or contact an organizer`)
