@@ -130,5 +130,3 @@ module.exports = async function(message) {
     message.delete({timeout: 3000})
   }
 }
-
-//more responses can be added at any time
