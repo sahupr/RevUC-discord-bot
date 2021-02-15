@@ -29,10 +29,35 @@ const censorEmail = email => {
   return ptEmail.replace(censor, stars)
 }
 
+const getRandomInt = max => {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 /**
  * 
  * @param {Discord.Message} message 
  */
+
+const responses_success = [
+  'is checked in!',
+  ', welcome to the main event!',
+  'is here!',
+  'welcome onboard!',
+  'has arrived!'
+]
+
+const responses_404 = [
+  'does not exist',
+  'cannot be found',
+  ', are you using the right email?'
+]
+
+const responses_403 = [
+  "you're already checked in.",
+  'already exists, is this a clone?',
+  "you've already signed up!",
+]
+
 module.exports = async function(message) {
   const email = message.toString();
 
@@ -81,13 +106,19 @@ module.exports = async function(message) {
  
       const censoredEmail = censorEmail(email);
 
-      message.channel.send(`${name} <${censoredEmail}> is checked in!`)
+      let max_success = responses_success.length
+      var max_404 = responses_404.length
+      var max_403 = responses_403.length
+
+      message.channel.send(`${name} <${censoredEmail}> ${responses_success[random.int(0, max_success-1)]}`)
     } catch (err) {
       console.error(err)
       if(err.response?.status === 404) {
-        message.channel.send(`Attendee with email ${censorEmail(email)} does not exist, please make sure you are registered with us or contact an organizer`)
+        // message.channel.send(`${censorEmail(email)} ${responses_404[random.int(0, max_404-1)]}, please make sure you are registered with us or contact an organizer`)
+        console.log(max_404, getRandomInt(max_404))
       } else if (err.response?.status === 403) {
-          message.channel.send(`Attendee with email ${censorEmail(email)} is already checked in.`)
+          // message.channel.send(`${censorEmail(email)} ${responses_403[random.int(0, max_403-1)]}`)
+          console.log(max_403, getRandomInt(max_403))
       }
       else {
         message.channel.send(`Error checking in ${censorEmail(email)}, please try again later or contact an organizer`)
