@@ -61,6 +61,10 @@ const responses_403 = [
 module.exports = async function(message) {
   const email = message.toString();
 
+  const max_success = responses_success.length
+  const max_404 = responses_404.length
+  const max_403 = responses_403.length
+
   if(emailValidator.validate(email) && message.channel.id == CHECKIN_CHANNEL_ID) {
     // send a request to revuc api to check in the email
     try {
@@ -106,19 +110,13 @@ module.exports = async function(message) {
  
       const censoredEmail = censorEmail(email);
 
-      let max_success = responses_success.length
-      var max_404 = responses_404.length
-      var max_403 = responses_403.length
-
       message.channel.send(`${name} <${censoredEmail}> ${responses_success[random.int(0, max_success-1)]}`)
     } catch (err) {
       console.error(err)
       if(err.response?.status === 404) {
-        // message.channel.send(`${censorEmail(email)} ${responses_404[random.int(0, max_404-1)]}, please make sure you are registered with us or contact an organizer`)
-        console.log(max_404, getRandomInt(max_404))
+        message.channel.send(`${censorEmail(email)} ${responses_404[getRandomInt(max_404)]}, please make sure you are registered with us or contact an organizer`)
       } else if (err.response?.status === 403) {
-          // message.channel.send(`${censorEmail(email)} ${responses_403[random.int(0, max_403-1)]}`)
-          console.log(max_403, getRandomInt(max_403))
+          message.channel.send(`${censorEmail(email)} ${responses_403[getRandomInt(max_403)]}`)
       }
       else {
         message.channel.send(`Error checking in ${censorEmail(email)}, please try again later or contact an organizer`)
