@@ -110,7 +110,7 @@ module.exports = async function(message) {
  
       const censoredEmail = censorEmail(email);
 
-      message.channel.send(`${name} <${censoredEmail}> ${responses_success[random.int(0, max_success-1)]}`)
+      message.channel.send(`${name} <${censoredEmail}> ${responses_success[getRandomInt(max_success)]}`)
     } catch (err) {
       console.error(err)
       if(err.response?.status === 404) {
