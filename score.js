@@ -1,10 +1,8 @@
 const Discord = require('discord.js')
-const { NONE } = require('sequelize')
-const { User, Event, sequelize, Claim } = require('./database')
+const { User, Event, Claim } = require('./database')
 
 const CLAIM_CHANNEL_ID = process.env.CLAIM_CHANNEL_ID
 const TOP_CHANNEL_ID = process.env.TOP_CHANNEL_ID
-// sequelize.sync()
 
 /**
  * 
@@ -19,8 +17,8 @@ function generateResponse(name, event, score, r_id) {
   }
 
   const claim_success = [
-    `Good job attending ${event.name}, you now have ${score} points. Now go attend another one.`,
-    `Ayy nice job ${name}. Hope you enjoyed ${event.name}! You now have ${score} points.` 
+    `Good job attending ${event?.name}, you now have ${score} points. Now go attend another one.`,
+    `Ayy nice job ${name}. Hope you enjoyed ${event?.name}! You now have ${score} points.` 
   ]
   
   const code_wrong = [  //Doesn't take points for now
@@ -32,17 +30,17 @@ function generateResponse(name, event, score, r_id) {
   
   const code_claimed = [  //Doesn't take points for now
     `Oops, sorry that code has already been claimed`,
-    `You’ve already attended ${event.name}, good job!`,
-    `Unless you invented time travel, you can’t attend ${event.name} twice` 
+    `You’ve already attended ${event?.name}, good job!`,
+    `Unless you invented time travel, you can’t attend ${event?.name} twice` 
   ]
 
   if(r_id == 1){
     return claim_success[getRandomInt(claim_success.length)]
   }
-  else if(r_id == 2){
+  if(r_id == 2){
     return code_wrong[getRandomInt(code_wrong.length)]
   }
-  else if(r_id == 3){
+  if(r_id == 3){
     return code_claimed[getRandomInt(code_claimed.length)]
   }
 }
@@ -68,7 +66,7 @@ async function score(args, receivedMessage) {
       const claim = await Claim.findOne({ where: { userID: receivedMessage.author.id, eventCode: code } })
 
       if (claim) {
-        var claimedResponse = generateResponse(receivedMessage.author.username, event, NONE, 3)
+        const claimedResponse = generateResponse(receivedMessage.author.username, event, null, 3)
         receivedMessage.channel.send(claimedResponse)
       } 
       else {
@@ -77,13 +75,13 @@ async function score(args, receivedMessage) {
         user.set(`score`, newScore)
         await user.save()
         await Claim.create({ userID: receivedMessage.author.id, eventCode: code })
-        var successResponse = generateResponse(receivedMessage.author.username, event, newScore, 1)
+        const successResponse = generateResponse(receivedMessage.author.username, event, newScore, 1)
         receivedMessage.channel.send(successResponse)
         // receivedMessage.channel.send(`Hey ${receivedMessage.author.username}, thank you for attending ${event.name}, you now have ${newScore} points`)   //correct code
       }
     } 
     else {
-      var wrongResponse = generateResponse(receivedMessage.author.username, NONE, NONE, 2)
+      const wrongResponse = generateResponse(receivedMessage.author.username, null, null, 2)
       receivedMessage.channel.send(wrongResponse)
       // receivedMessage.channel.send('Nice try')   //wrong code
     }
