@@ -8,6 +8,7 @@ const countdown = require("./countdown")
 const checkin = require('./checkin')
 const { score, top } = require('./score')
 const revvit = require("./revvit")
+const background = require("./background")
 const checkin_prv = require("./checkin_prv")
 
 const client = new Discord.Client()
@@ -91,11 +92,15 @@ client.on('message', async (receivedMessage) => {
     }
 })
 
+/**
+ * 
+ * @param {Discord.Message} receivedMessage 
+ */
 function processCommand(receivedMessage) {
-    let fullCommand = receivedMessage.content.substr(1)     //remove the leading/bot identifying character
-    let splitCommand = fullCommand.split(" ")               //split the message up into pieces for each space
-    let primaryCommand = splitCommand[0]                    //take the first string from the split
-    let arguments = splitCommand.slice(1)                   //all other words are arguments/parameters for the primaryCommand
+    const fullCommand = receivedMessage.content.substr(1)     //remove the leading/bot identifying character
+    const splitCommand = fullCommand.split(" ")               //split the message up into pieces for each space
+    const primaryCommand = splitCommand[0]                    //take the first string from the split
+    const arguments = splitCommand.slice(1)                   //all other words are arguments/parameters for the primaryCommand
 
     console.log('command received: ' + primaryCommand)
     console.log('Arguments: ' + arguments)
@@ -120,11 +125,17 @@ function processCommand(receivedMessage) {
             top(arguments, receivedMessage)
             break
         case 'hi':
+        case 'revvit':
             revvit(arguments, receivedMessage)
             break
-        case 'sponsor' || 'mentor' || 'judge':
-            checkin_prv(argumnets, receivedMessage)
-            
+        case 'background':
+            background(arguments, receivedMessage)
+            break
+        case 'sponsor':
+        case 'mentor':
+        case 'judge':
+            checkin_prv(arguments, receivedMessage, primaryCommand)
+            break;
     }
     
 }

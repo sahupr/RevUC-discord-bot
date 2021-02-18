@@ -1,8 +1,14 @@
+const TOP_CHANNEL_ID = process.env.TOP_CHANNEL_ID
+
 function helpCommand(args, receivedMessage) {
+  const isAdminChannel = receivedMessage.channel.id == TOP_CHANNEL_ID;
+
     if(args.length < 1){
-        receivedMessage.channel.send('specify what you need help for:\n `!revvit` \n `!help checkin` \n `!help codes`')
+      isAdminChannel ?
+        receivedMessage.channel.send('specify what you need help for:\n `!revvit` \n `!help checkin` \n `!help codes` \n `!help sponsor` \n `!help judge` \n `!help mentor` \nor `!background` to know more about me! ') :
+        receivedMessage.channel.send('specify what you need help for:\n `!revvit` \n `!help checkin` \n `!help codes` \nor `!background` to know more about me! ')
     }
-    else{
+    else {
         const topic = args[0]
         switch(topic) {
             case 'checkin':
@@ -12,6 +18,13 @@ function helpCommand(args, receivedMessage) {
             case 'codes':
                 receivedMessage.channel.send('Use the bot command `!claim CODE` to claim your participation points')
                 break
+            case 'sponsor':
+            case 'mentor':
+            case 'judge':
+                if(isAdminChannel) {
+                  receivedMessage.channel.send(`Use the bot command \`!${topic} <email> <name>\` to add an attendee to the database and allow them to check in to the discord server`)
+                  break
+                }
             default:
                 receivedMessage.channel.send('Invalid bot command')
                 throw new Error(`Invalid command`)
