@@ -8,6 +8,7 @@ const countdown = require("./countdown")
 const checkin = require('./checkin')
 const { score, top } = require('./score')
 const revvit = require("./revvit")
+const checkin_prv = require("./checkin_prv")
 
 const client = new Discord.Client()
 
@@ -121,6 +122,9 @@ function processCommand(receivedMessage) {
         case 'hi':
             revvit(arguments, receivedMessage)
             break
+        case 'sponsor' || 'mentor' || 'judge':
+            checkin_prv(argumnets, receivedMessage)
+            
     }
     
 }
