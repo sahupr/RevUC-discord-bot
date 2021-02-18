@@ -7,6 +7,7 @@ const react = require("./react")
 const countdown = require("./countdown")
 const checkin = require('./checkin')
 const { score, top } = require('./score')
+const revvit = require("./revvit")
 
 const client = new Discord.Client()
 
@@ -116,6 +117,9 @@ function processCommand(receivedMessage) {
             break
         case 'top':
             top(arguments, receivedMessage)
+            break
+        case 'hi':
+            revvit(arguments, receivedMessage)
             break
     }
     

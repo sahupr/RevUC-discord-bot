@@ -1,11 +1,9 @@
 function helpCommand(args, receivedMessage) {
     if(args.length < 1){
-        console.log('in if')
-        receivedMessage.channel.send('specify what you need help for: \n `!help checkin` \n `!help codes`')
+        receivedMessage.channel.send('specify what you need help for:\n `!revvit` \n `!help checkin` \n `!help codes`')
     }
     else{
         const topic = args[0]
-        console.log('in else')
         switch(topic) {
             case 'checkin':
                 console.log('checkin prompt')
