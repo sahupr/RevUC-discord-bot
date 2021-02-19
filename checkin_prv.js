@@ -8,7 +8,7 @@ const TOP_CHANNEL_ID = process.env.TOP_CHANNEL_ID
  * 
  * @param {string[]} args
  * @param {Discord.Message} message
- * @param {'sponsor' | 'mentor' | 'judge'} primaryCommand
+ * @param {'sponsor' | 'mentor' | 'judge' | 'minor'} primaryCommand
  */
 module.exports = async function (args, message, primaryCommand) {
   if (args.length < 2) {
@@ -16,17 +16,23 @@ module.exports = async function (args, message, primaryCommand) {
   } else {
     const email = args.shift()
     const name = args.join(` `)
-    const role = primaryCommand.toUpperCase()
+    let role = primaryCommand.toUpperCase()
+    let isMinor = false
+
+    if(primaryCommand === 'minor') {
+      role = `HACKER`
+      isMinor = true
+    }
 
     if (message.channel.id == TOP_CHANNEL_ID) {
       try {
         await Axios.post(
           `https://revolutionuc-api.herokuapp.com/api/v2/attendee`,
-          { email, name, role },
+          { email, name, role, isMinor },
           { headers: { Authorization: `Bearer ${API_TOKEN}` } }
         )
 
-        message.channel.send(`Created ${role} ${name} <${email}>`)
+        message.channel.send(`Created ${primaryCommand} ${name} <${email}>`)
       } catch (err) {
         console.error(err)
         if (err.response?.status === 400) {

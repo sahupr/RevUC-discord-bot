@@ -5,7 +5,7 @@ function helpCommand(args, receivedMessage) {
 
     if(args.length < 1){
       isAdminChannel ?
-        receivedMessage.channel.send('specify what you need help for:\n `!revvit` \n `!help checkin` \n `!help codes` \n `!help sponsor` \n `!help judge` \n `!help mentor` \nor `!background` to know more about me! ') :
+        receivedMessage.channel.send('specify what you need help for:\n `!revvit` \n `!help checkin` \n `!help codes` \n `!help sponsor` \n `!help mentor` \n `!help judge` \n `!help minor` \nor `!background` to know more about me! ') :
         receivedMessage.channel.send('specify what you need help for:\n `!revvit` \n `!help checkin` \n `!help codes` \nor `!background` to know more about me! ')
     }
     else {
@@ -21,6 +21,7 @@ function helpCommand(args, receivedMessage) {
             case 'sponsor':
             case 'mentor':
             case 'judge':
+            case 'minor':
                 if(isAdminChannel) {
                   receivedMessage.channel.send(`Use the bot command \`!${topic} <email> <name>\` to add an attendee to the database and allow them to check in to the discord server`)
                   break

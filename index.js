@@ -134,6 +134,7 @@ function processCommand(receivedMessage) {
         case 'sponsor':
         case 'mentor':
         case 'judge':
+        case 'minor':
             checkin_prv(arguments, receivedMessage, primaryCommand)
             break;
     }
