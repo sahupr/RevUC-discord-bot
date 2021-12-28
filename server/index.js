@@ -10,7 +10,7 @@ const app = express()
 app.use(express.json())
 app.use(cors({ origin: `*` }))
 
-app.get(`/ping`, async (req, res, next) => {
+app.get(`/ping`, async (_req, res) => {
   res.send(`pong`)
 })
 
