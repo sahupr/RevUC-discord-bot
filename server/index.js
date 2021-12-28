@@ -14,7 +14,7 @@ app.get(`/ping`, async (_req, res) => {
   res.send(`pong`)
 })
 
-app.use(auth)
+// app.use(auth)
 app.use(router)
 
 app.listen(PORT, () => {
