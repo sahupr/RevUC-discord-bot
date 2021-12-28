@@ -15,7 +15,13 @@ const CHECKIN_CHANNEL_ID = process.env.CHECKIN_CHANNEL_ID
 
 client.once('ready', () => {
     console.log('the bot is online!')
-    client.user.setActivity('with Javascript', {type: "PLAYING"})
+    client.user.setPresence({
+        status: 'online',
+        activity: {
+            name: `NodeJS and Postgres`,
+            type: 'PLAYING'
+        }
+    })
 
     //list all servers the bot is connected to
     // console.log('\nServers:')
