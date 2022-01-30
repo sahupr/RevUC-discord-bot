@@ -1,9 +1,12 @@
-const { Sequelize, DataTypes } = require(`sequelize`)
+const { Sequelize } = require(`sequelize`);
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres', dialectOptions: { ssl: { require: true, rejectUnauthorized: false } } })
-exports.sequelize = sequelize
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: "postgres",
+  dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
+});
+exports.sequelize = sequelize;
 
-exports.User = sequelize.define(`discord-user`, {
+exports.User = sequelize.define(`participants`, {
   userID: {
     type: DataTypes.STRING,
     unique: true,
@@ -12,39 +15,43 @@ exports.User = sequelize.define(`discord-user`, {
   },
   username: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   score: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 0
-  }
-})
+    defaultValue: 0,
+  },
+});
 
 exports.Event = sequelize.define(`event`, {
   code: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    primaryKey: true
+    primaryKey: true,
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   points: {
     type: DataTypes.INTEGER,
-    allowNull: false
-  }
-})
+    allowNull: false,
+  },
+});
 
-exports.Claim = sequelize.define('claim',  {
+exports.Claim = sequelize.define("claim", {
   userID: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   eventCode: {
     type: DataTypes.STRING,
-    allowNull: false
-  }
-})
+    allowNull: false,
+  },
+});
