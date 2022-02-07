@@ -34,11 +34,6 @@ const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
 };
 
-/**
- *
- * @param {Discord.Message} message
- */
-
 const responses_success = [
   "is checked in!",
   ", welcome to the main event!",
@@ -59,6 +54,10 @@ const responses_403 = [
   "you've already signed up!",
 ];
 
+/**
+ *
+ * @param {Discord.Message} message
+ */
 module.exports = async function (message) {
   const email = message.toString();
 
