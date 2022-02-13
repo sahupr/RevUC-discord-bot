@@ -6,8 +6,9 @@ const API_TOKEN = process.env.API_TOKEN;
 
 const latticeSkills = [];
 
-Axios.get(`https://revolutionuc-api.herokuapp.com/api/v2/lattice/skills`)
-  .then(res => latticeSkills = res.data);
+Axios.get(`https://revolutionuc-api.herokuapp.com/api/v2/lattice/skills`).then(
+  (res) => (latticeSkills = res.data)
+);
 
 /**
  *
@@ -33,6 +34,12 @@ function latticeCommand(receivedMessage) {
 
       // name and idea are strings, skills and lookingFor are arrays of strings
       const { name, skills, idea, lookingFor } = profile;
+
+      message.channel.send(
+        `${name}: Skills: ${skills.join(
+          ", "
+        )}, Idea: ${idea}, Looking for: ${lookingFor.join(", ")}`
+      );
     }
   } catch (err) {
     console.error(err);
