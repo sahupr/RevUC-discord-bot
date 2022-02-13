@@ -7,14 +7,14 @@ const API_TOKEN = process.env.API_TOKEN;
 const latticeSkills = [];
 
 Axios.get(`https://revolutionuc-api.herokuapp.com/api/v2/lattice/skills`).then(
-  (res) => (latticeSkills = res.data)
+  (res) => latticeSkills.push(...res.data)
 );
 
 /**
  *
  * @param {Discord.Message} receivedMessage
  */
-function latticeCommand(receivedMessage) {
+async function latticeCommand(receivedMessage) {
   try {
     let user = await User.findByPk(receivedMessage.author.id);
 
