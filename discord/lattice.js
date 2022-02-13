@@ -24,7 +24,7 @@ async function latticeCommand(receivedMessage) {
       );
     } else {
       const { data: profile } = await Axios.get(
-        `https://revolutionuc-api.herokuapp.com/api/v2/lattice/admin/profile?email=${email}`,
+        `https://revolutionuc-api.herokuapp.com/api/v2/lattice/admin/profile?email=${user.email}`,
         {
           headers: {
             Authorization: `Bearer ${API_TOKEN}`,
@@ -33,18 +33,24 @@ async function latticeCommand(receivedMessage) {
       );
 
       // name and idea are strings, skills and lookingFor are arrays of strings
-      const { name, skills, idea, lookingFor } = profile;
+      const { name, skills, idea, lookingFor, visible } = profile;
 
-      message.channel.send(
-        `${name}: Skills: ${skills.join(
-          ", "
-        )}, Idea: ${idea}, Looking for: ${lookingFor.join(", ")}`
-      );
+      if (visible) {
+        receivedMessage.channel.send(
+          `${name}\nSkills: ${skills.join(
+            ", "
+          )}\nIdea: ${idea}\nLooking for: ${lookingFor.join(", ")}`
+        );
+      } else {
+        receivedMessage.channel.send(
+          `Hey ${receivedMessage.author.username}, your lattice profile is hidden. If you want to show it here, please go to https://lattice.revolutionuc.com/profile and click on "Mark Visible".`
+        );
+      }
     }
   } catch (err) {
     console.error(err);
     receivedMessage.channel.send(
-      `Hey ${receivedMessage.author.username}, there was an error contacting the server, please report to an organizer!`
+      `Hey ${receivedMessage.author.username}, looks like you haven't signed up for lattice yet! If you are having issues with creating a lattice profile, or if you have already signed up and are still getting this error, please @Organizer.`
     );
   }
 }
