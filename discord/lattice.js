@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const Axios = require("axios").default;
 const { User } = require("../database");
+const { MessageEmbed } = require('discord.js');
 
 const API_TOKEN = process.env.API_TOKEN;
 
@@ -41,7 +42,7 @@ async function latticeCommand(receivedMessage) {
       } else {
         // Else, send an embed with the Hacker's profile info
         const discordFullUsername = `${discordUsername}#${receivedMessage.author.discriminator}`;
-        const infoEmbed = new Discord.MessageEmbed()
+        const infoEmbed = new MessageEmbed()
           .setColor("#008C8C") // Mars Green color
           .setAuthor({ name: "RevUC Hacker Profile", iconURL: "https://assets.revolutionuc.com/logo-128.png" })
           .setTitle(`${name} @${discordFullUsername}`)
@@ -50,7 +51,6 @@ async function latticeCommand(receivedMessage) {
             { name: "Skills", value: skills.join(", ") },
             { name: "Looking for", value: lookingFor.join(", ") }
           )
-
         receivedMessage.channel.send({ embeds: [infoEmbed] })
       }
 
