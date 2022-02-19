@@ -131,33 +131,38 @@ module.exports = async function (message) {
         });
       }
 
-      message.channel.send(
+      var checkin_success = await message.channel.send(
         `${name} <${censoredEmail}> ${
           responses_success[getRandomInt(max_success)]
         }`
       );
+      checkin_success.delete({ timeout: 20000 });
     } catch (err) {
       console.error(err);
       if (err.response?.status === 404) {
-        message.channel.send(
+        var err_404 = await message.channel.send(
           `${censoredEmail} ${
             responses_404[getRandomInt(max_404)]
           }, please make sure you are registered with us or contact an organizer`
         );
+        err_404.delete({ timeout: 20000 });
       } else if (err.response?.status === 403) {
-        message.channel.send(
+        var err_403 = await message.channel.send(
           `${censoredEmail} ${responses_403[getRandomInt(max_403)]}`
         );
+        err_403.delete({ timeout: 20000 });
       } else {
-        message.channel.send(
+        var err_other = await message.channel.send(
           `Error checking in ${censoredEmail}, please try again later or contact an organizer`
         );
+        err_other.delete({ timeout: 20000 });
       }
     }
 
     message.delete({ timeout: 2000 });
   } else {
-    message.channel.send(`${censoredEmail} is not a valid email`);
+    var invalid_email = await message.channel.send(`${censoredEmail} is not a valid email`);
     message.delete({ timeout: 3000 });
+    invalid_email.delete({ timeout: 30000 });
   }
 };
