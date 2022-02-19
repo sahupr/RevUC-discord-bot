@@ -56,7 +56,7 @@ client.once("ready", () => {
   //     }
 });
 
-client.on("message", async (receivedMessage) => {
+client.on("messageCreate", async (receivedMessage) => {
   if (receivedMessage.author == client.user) {
     return;
   }
