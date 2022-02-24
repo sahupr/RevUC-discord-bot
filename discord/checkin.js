@@ -34,10 +34,6 @@ const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
 };
 
-function deleteTime(){
-  setTimout(()=> msg.delete(), 10000);
-}
-
 const responses_success = [
   "is checked in!",
   ", welcome to the main event!",
