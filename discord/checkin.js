@@ -136,7 +136,7 @@ module.exports = async function (message) {
           responses_success[getRandomInt(max_success)]
         }`
       );
-      checkin_success.delete({ timeout: 20000 });
+      setTimeout(() => checkin_success.delete(), 30000);
     } catch (err) {
       console.error(err);
       if (err.response?.status === 404) {
@@ -150,12 +150,12 @@ module.exports = async function (message) {
         var err_403 = await message.channel.send(
           `${censoredEmail} ${responses_403[getRandomInt(max_403)]}`
         );
-        err_403.delete({ timeout: 20000 });
+        setTimeout(() => err_403.delete(), 30000);
       } else {
         var err_other = await message.channel.send(
           `Error checking in ${censoredEmail}, please try again later or contact an organizer`
         );
-        err_other.delete({ timeout: 20000 });
+        setTimeout(() => err_other.delete(), 30000);
       }
     }
 
@@ -163,6 +163,6 @@ module.exports = async function (message) {
   } else {
     var invalid_email = await message.channel.send(`${censoredEmail} is not a valid email`);
     message.delete({ timeout: 3000 });
-    invalid_email.delete({ timeout: 30000 });
+    setTimeout(() => invalid_email.delete(), 30000);
   }
 };
