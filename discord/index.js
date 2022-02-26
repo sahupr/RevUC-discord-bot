@@ -13,6 +13,7 @@ const lattice = require("./lattice");
 const checkin_prv = require("./checkin_prv");
 
 const CHECKIN_CHANNEL_ID = process.env.CHECKIN_CHANNEL_ID;
+const CLAIM_CHANNEL_ID = process.env.CLAIM_CHANNEL_ID;
 
 client.once("ready", () => {
   console.log("the bot is online!");
@@ -64,6 +65,12 @@ client.on("messageCreate", async (receivedMessage) => {
   if (receivedMessage.channel.id == CHECKIN_CHANNEL_ID) {
     // run the checkIn function
     await checkin(receivedMessage);
+    return;
+  }
+
+  if (receivedMessage.channel.id == CLAIM_CHANNEL_ID) {
+    // run the checkIn function
+    await score(receivedMessage);
     return;
   }
   /* 
@@ -119,9 +126,6 @@ function processCommand(receivedMessage) {
       break;
     case "countdown":
       countdown(arguments, receivedMessage);
-      break;
-    case "claim":
-      score(arguments, receivedMessage);
       break;
     case "top":
       top(arguments, receivedMessage);

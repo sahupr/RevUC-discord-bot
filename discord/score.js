@@ -46,16 +46,22 @@ function generateResponse(name, event, score, responseType) {
 
 /**
  *
- * @param {string[]} args
  * @param {Discord.Message} receivedMessage
  */
-async function score(args, receivedMessage) {
-  if (receivedMessage.channel.id != CLAIM_CHANNEL_ID) {
-    console.log("wrong channel");
-    return;
-  }
+async function score(receivedMessage) {
+  const fullCommand = receivedMessage.content.substr(1); //remove the leading/bot identifying character
+  const splitCommand = fullCommand.split(" "); //split the message up into pieces for each space
+  const primaryCommand = splitCommand[0]; //take the first string from the split
+  const args = splitCommand.slice(1); //all other words are arguments/parameters for the primaryCommand
 
   try {
+    if (primaryCommand != `claim`) {
+      receivedMessage.channel.send(
+        `Wrong command ${receivedMessage.author.username}, please use the command \`!claim EXAMPLECODE\``
+      );
+      return;
+    }
+
     let user = await User.findByPk(receivedMessage.author.id);
 
     if (!user) {
