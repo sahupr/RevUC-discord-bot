@@ -6,7 +6,7 @@ function helpCommand(args, receivedMessage) {
     if(args.length < 1){
       isAdminChannel ?
         receivedMessage.channel.send('specify what you need help for:\n `!revvit` \n `!help checkin` \n `!help codes` \n `!help sponsor` \n `!help mentor` \n `!help judge` \n `!help minor` \nor `!background` to know more about me! ') :
-        receivedMessage.channel.send('specify what you need help for:\n `!revvit` \n `!help checkin` \n `!help codes` \nor `!background` to know more about me! ')
+        receivedMessage.channel.send('specify what you need help for:\n `!revvit` \n `!help checkin` \n `!help codes` \n `!help lattice` \nor `!background` to know more about me! ')
     }
     else {
         const topic = args[0]
@@ -26,6 +26,9 @@ function helpCommand(args, receivedMessage) {
                   receivedMessage.channel.send(`Use the bot command \`!${topic} <email> <name>\` to add an attendee to the database and allow them to check in to the discord server`)
                   break
                 }
+            case 'lattice':
+                receivedMessage.channel.send('Use the bot command `!lattice <email>` to show your Lattice hacker profile')
+                break
             default:
                 receivedMessage.channel.send('Invalid bot command')
                 throw new Error(`Invalid command`)
