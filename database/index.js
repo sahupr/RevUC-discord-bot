@@ -43,7 +43,7 @@ exports.Event = sequelize.define(`event`, {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-});
+}, { timestamps: false });
 
 exports.Claim = sequelize.define("claim", {
   userID: {
