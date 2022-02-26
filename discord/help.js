@@ -27,7 +27,7 @@ function helpCommand(args, receivedMessage) {
                   break
                 }
             case 'lattice':
-                receivedMessage.channel.send('Use the bot command `!lattice <email>` to show your Lattice hacker profile')
+                receivedMessage.channel.send('Use the bot command `!lattice` to show your Lattice hacker profile')
                 break
             default:
                 receivedMessage.channel.send('Invalid bot command')
