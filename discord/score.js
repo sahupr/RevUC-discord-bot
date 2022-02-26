@@ -14,23 +14,23 @@ const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
 
 function generateResponse(name, event, score, responseType) {
   const claim_success = [
-    `Good job attending ${event?.name}, you now have ${score} points. Now go attend another one.`,
+    `Good job attending ${event?.name} ${name}, you now have ${score} points. Now go attend another one.`,
     `Ayy nice job ${name}. Hope you enjoyed ${event?.name}! You now have ${score} points.`,
   ];
 
   const code_wrong = [
     //Doesn't take points for now
     `Stop cheating ${name}!`,
-    `Nice try!`,
+    `Nice try ${name}, but that code is wrong!`,
     `I’m sorry ${name}, but we never gave you that code. Please try a code that works.`,
     `${name} Did you just make that up? Because I sure don’t know this code.`,
   ];
 
   const code_claimed = [
     //Doesn't take points for now
-    `Oops, sorry that code has already been claimed`,
-    `You’ve already attended ${event?.name}, good job!`,
-    `Unless you invented time travel, you can’t attend ${event?.name} twice`,
+    `Oops, sorry ${name} that code has already been claimed`,
+    `You’ve already attended ${event?.name}, good job ${name}!`,
+    `Yo ${name}, unless you invented time travel, you can’t attend ${event?.name} twice`,
   ];
 
   if (responseType === RESPONSE.SUCCESS) {
