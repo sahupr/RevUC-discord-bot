@@ -16,7 +16,7 @@ function helpCommand(args, receivedMessage) {
                 receivedMessage.channel.send('Type the email you registered with out on the checkin channel to check in to RevolutionUC. Ex: `foo@bar.com`')
                 break
             case 'codes':
-                receivedMessage.channel.send('Use the bot command `!claim CODE` to claim your participation points')
+                receivedMessage.channel.send('Use the bot command `!claim EXAMPLECODE` to claim your participation points')
                 break
             case 'sponsor':
             case 'mentor':
